@@ -1,0 +1,278 @@
+Linux命令：
+reboot					重启
+poweroff					关机
+su						切换用户
+sudo						本次命令使用root权限
+cat  /proc/meminfo		观察linux系统上虚拟内存的当前状态。
+ipcs –m					查看系统上的当前共享内存页面
+ls						列出目录中的文件和子目录
+touch					创建空文件
+cp						复制
+ln						创建链接文件
+mv						移动、重命名
+rm -rf					删除（-r删除子内容-f不弹出提示）
+mkdir					创建目录
+rmdir					删除目录
+stat						提供文件系统上某个文件的所有状态信息
+file						查看文件类型
+cat						显示文本文件中所有数据
+more					显示文本文件中的内容（将输出按屏显示）
+less						显示文件内容
+tail						显示文件末尾部分的内容
+head					显示文件开头部分的内容
+ps –efH					探查进程
+top						实时监测进程
+kill						通过PID（进程号）结束进程
+killall					通过进程名结束进程
+mount					输出当前系统上挂载的设备列表
+umount					移除一个可移动设备
+df -h						查看所有已挂载磁盘的使用情况
+du -chs					显示当前目录下所有文件、目录、和子目录的磁盘使用情况
+sort –nM					排序
+{
+	-n按数字排序
+-M按月份排序
+	-r先列出最大数字
+}
+grep						查找包含匹配指定模式的字符的行
+bzip2					用来压缩文件
+bzcat					用来显示压缩的文本文件的内容
+bunzip2					用来解压压缩后的.bz2文件
+bzip2recover				用来尝试恢复损毁的压缩文件
+gzip						用来压缩文件
+gzcat					用来查看压缩过的文本文件的内容
+gunzip					用来解压文件
+zip						创建一个压缩文件，包换指定的文件和目录
+zipcloak					创建一个加密的压缩文件，包含指定的文件和目录
+zipnote					从zip文件中提取批注
+zipsplit					将一个先有zip文件分割成多个更小的固定大小的文件
+unzip					从压缩过的zip文件中提取文件和目录
+tar						将文件写到磁带设备上归档、把输出写到文件里
+test=					设置局部环境变量
+export					导出局部环境变量为全局变量
+echo $					引用（查看）环境变量
+unset					删除环境变量
+PATH=$PATH:variable		设置PATH环境变量
+环境变量作为数组例子
+{
+	#设置环境变量mytest作为数组
+$mytest=(one two three four five)
+#显示环境变量第0个值
+$echo $mytest
+one
+#显示环境变量第3个值 环境变量数组索引值从零开始
+$echo ${mytest[2]}
+three
+#显示整个数组变量
+$echo ${mytest[*]}
+one two three four five
+#改变某个索引值位置的值
+$mytest[2]=seven
+$echo ${mytest[*]}
+one two seven four five
+#用unset命令来删除数组中的某个值
+#删除后该索引值对应位置为空
+$unset mytest[2]
+#echo ${mytest[*]}
+one two four five
+$
+$echo ${mytest[2]}
+
+#echo ${mytest[3]}
+four
+$
+}
+echo $PATH				查看PATH环境变量
+useradd –D				查看linux系统的系统默认值（在/usr/sbin目录下）
+useradd	username		添加新用户
+userdel –r username		删除用户（-r同时删除用户的HOME目录和mail目录）
+usermod					修改用户账户的字段，并指定主要组及附加组的所属关系
+例：
+{
+	#将用户添加到组
+	/usr/sbin/usermod –G 组名 用户名
+	#添加-g参数，指定的组名会替换掉该账户的默认组，慎重
+}
+passwd					修改已有用户的密码
+chpasswd					从文件中读取登录名密码对，并更新密码
+chage					修改密码的过期日期
+chfn						修改用户账户的备注信息
+chsh						修改用户账户的默认登陆shell
+groupadd					创建新组
+groupmod –n 新组名 旧组名	修改组
+umask					设置用户创建文件和目录的默认权限
+chmod					改变对象的安全性设置（权限）
+chown					改变文件的属主
+chgrp					改变文件的默认属组
+#!						告诉shell用哪个shell来运行脚本(在shell的第一行)
+./						运行脚本文件
+echo	 -n					显示一个简单的文本字符串（加-n参数不换行显示文本）
+set						显示完整的活动的环境变量列表（在命令行中）
+set						给位置变量赋值（在shell脚本中）
+\$						显示美元符号
+${variable}				显示变量名
+>						将命令的输出发到一个新建文件中
+>> 						将命令的输出追加到一个已有文件中
+wc < 文件名				对数据中文本的计数
+<						输入重定向，经文件中的内容重定向到命令
+<<						内联输入重定向
+例:
+{
+	wc << EOF
+	> test string 1		#这里的>表示的是次提示符，来提示输入数据
+	> test string 2
+	> test string 3
+	> EOF
+	3 9 42 
+}
+`(反引号)					将shell命令的输出赋给变量
+expr						处理数学表达式
+$[operation]				处理数学表达式(只支持整数运算，z shell中除外)
+print						打印变量和数字
+bc						访问bash计算器(进行浮点运算)
+scale					控制浮点运算小数点位数
+IFS						在脚本中更改字段分隔符
+例：
+{
+	#告诉bash shell在数据值中忽略空格和制表符
+	IFS=$’\n’	
+	#改变IFS之前保存原来的IFS值，之后再恢复它
+	IFS.OLD=$IFS
+	IFS=$’\n’
+	<use the new IFS value in code>
+	IFS=$IFS.OLD
+}
+echo $?					查看执行的最后一条命令的退出状态码
+exit number				在脚本结束时指定一个退出状态码
+(( expression ))				将高级数学表达式放入比较中（if语句中使用）
+[[ expression ]]			针对字符串比较的高级特性
+%s/\<string1\>/string2/gc	在vim中将文中的string1替换成string2，且每次替换询问
+sudo vim /etc/vimrc		对vim编辑器进行配置
+例：
+{
+	#进入vimrc配置文件后即可进行配置
+	set nu				显示行号
+	set background=dark	背景使用黑色
+	syntax on				语法高亮显示
+	set tabstop=4			设置tab键为4个空格
+	set shiftwidth			设置当行之间交错时使用4个空格
+	set autoindent			设置自动缩进
+	set nobackup			表示不需要备份文件
+	set noswapfile			表示不创建临时交换文件
+	set nowritebackup 	表示编辑的时候不需要备份文件
+	set noundofile			表示不创建撤销文件
+}
+shift n					将命令行参数向左移除（n为向左移动位数，默认为1）
+${num}					引用多于9个的位置变量时需加上{} (num数大于9)
+basename $0				返回程序名（$0位置变量）
+$#						特殊变量（统计为自变量个数）
+${!#}						引用最后的位置变量（命令行参数）
+:1,5s/^/#/g				在1-5行添加#注释
+:1,5s/^#//g				在1-5行删除#注释
+set -- `getopt –q ab:c “$@”`	使用命令行选项（-q 忽略错误消息 : 说明-b选项后有参数）
+$*	将命令行所有参数当做单个单词保存
+$@	将命令行所有参数当做同一字符串中的多个独立单词
+--						shell用特殊字符双破折线来表明选项结束了
+read –t 5 –p “discription” variable	从标准输入读取用户输入
+{
+-t 指定read命令等待输入秒数 
+-p 允许直接在read命令行指定提示字符串 
+-n1 当输入字符达到预设的字符数1时自动退出
+-s 阻止将传给read命令的数据显示在显示器上
+}
+bc						进入计算器（quit退出）
+2> 						错误信息（STDERR）输出重定向
+1>	  					正常输出STDOUT输出重定向
+&> 						将STDERR和STDOUT的输出重定向到同一个输出文件
+>&2						故意在脚本中生成错误信息
+exec 1>text				在shell脚本执行期间重定向某个特定文件描述符
+exec 0< text				在脚本中重定向输入
+exec 3> text				创建输出文件描述符（3可换成3-9之间任意数字）
+exec 3<> text 				创建读写文件描述符（3可换成3-9之间任意数字）
+exec 3>&- 				关闭文件描述符（3可换成3-9之间任意数字）
+$$ 						特殊环境变量（shell会将进程设为当前的PID）
+/全路径/lsof –a –p $$ -d 	列出打开的文件描述符
+command > /dev/null		阻止命令输出
+cat /dev/null > text			清除文件text中的内容
+mktemp –t test.XXXXXX		在本地目录中创建一个文件（注意X是大写的！！！）
+{
+	-t	mktemp命令会返回用来创建临时文件的全路径
+	-d	创建临时目录而不是文件
+}
+tee	-a				将从STDIN来的数据同时发给两个目的地（-a将数据追加到文件中）
+pwd					显示当前目录
+source(.)				在shell脚本中运行库文件脚本（.是source的别名）
+/home/username/.bashrc 	可在此文件中定义库函数
+sudo pacman-Syu dialog		安装dialog包
+dialog --msgbox “text” height width		显示一条消息，并要求用户选择ok按钮
+eg$:dialog --title Testing --msgbox “This is a test ” 10 20
+dialog --title “text” --yesno “text” height width	提供一条简单的带yes和no按钮的消息
+dialog --inputbox “text” height width 2>file.txt	提供一个输入文本用的文本表单
+dialog --textbox /home/filename height width	在滚动窗口中显示文件的内容
+dialog --menu “text” height width num 1 “text1” 2 “text2” 2>file.txt 	显示可选择的一系列选项
+dialog --title “text” --fselect $HOME/ height width 2>file.txt 提供文件选择窗口来浏览选择文件
+在GNOME图像化环境使用的命令（zenity）：
+zenity --calendar 	显示整月日历
+zenity --file0selection	浏览系统目录
+例：
+{
+	zenity --text-info --title "Disk space" --filename=$temp --width 750 --height 10
+	zenity --list --radiolist --title "Sys Admin Menu" --column "Select" --column "Menu Item" FALSE "Display diskspace" FALSE "Display users" FALSE "Display memory usage" FALSE "Exit" > $temp2
+}
+echo $0	查看shell的名称
+echo $-	查看当前选项的标记
+echo $$	查看当前shell的进程ID
+echo $!	查看最近一个后台命令的进程ID
+zmodload 	zsh shell中显示当前已安装的模块
+zmodload 模块名称 	创建内建命令
+zmodload -u 模块名称	删除已安装的模块
+printf 	用C风格的格式字符串来显示变量和文本(可显示浮点精度)
+let 		执行数学运算，应该在算式前后加上双引号，这样才能支持空格
+eg$: let value=” 4 * 5.1 / 3.2 ”
+typeset	声明变量数据类型（可正确显示浮点数）
+zmodload zsh/mathfunc 	安装数学函数库
+$0		gawk中代表整个文本行
+$1		gawk代表文本行中的第1个数据字段
+$2		gawk代表文本行中的第2个数据字段
+$n		gawk代表文本行中的第n个数据字段
+gawk引用变量值不需要像shell脚本一样使用美元符
+bash -x scriptname		跟踪脚本运行
+set -x set +x  			调试部分脚本
+例：
+{
+	#!/bin/bash
+	echo “hello”
+	set -x
+	echo “today is $(date %Y-%m-%d)”
+	set +x
+}
+journalctl -b -1 显示上次启动的信息
+sed -e script 在处理输入时，将script中指定的命令添加到运行的命令中
+sed -f file 在处理输入时，将file中指定的命令添加到运行的命令中
+sed -n ‘s/a/b/p’ file		n禁止sed编辑器输出，把文中的a都改成b，p会输出修改过的行
+ctrl+d	退出gawk命令行模式
+sed在引用环境变量时使用双引号即可，因为双引号是弱转义，不会去除$的变量功能，而单引号为强转义
+gawk –v replace=”$var” ‘{print replace}’	在gawk中引用环境变量
+s/^#.*$//g 	删除以#开头的行
+g/^$/d		删除空白行
+g/^\s*$/d	删除包含有空格组成的空行
+g/^[ |\t]*$/d	删除以空格或tab开头到结尾的空行
+
+
+ping 
+{
+	-f	极限检测。大量且快速地送网络封包给一台机器，看它的回应
+	-n	只输出数值
+	-q	不显示任何传送封包的信息，只显示最后的结果
+	-r	忽略普通的Routing Table，直接将数据包送到远端主机上。通常是查看本机的网络接口是否有问题
+	-R	记录路由过程
+	-v	详细显示指令的执行过程
+	-c	数目 在发送指定数目的包后停止
+	-I	秒数 设定间隔几秒送一个网络封包给一台机器，预设值是一秒送一次
+	-I(大写的i)	网络界面 使用指定的网络界面送出数据包
+	-l(小写的L)	前置载入 设置在送出要求信息之前，先行发出的数据包
+	-p	范本样式 设置填满数据包的范本样式
+	-s	字节数 指定发送的数据字节数
+	-t	存活数值 设置存活数值TTL的大小
+}
+
