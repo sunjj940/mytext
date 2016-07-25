@@ -1,0 +1,83 @@
+sudo pacman –Syu git				安装git
+git config --global user.name “Your Name”
+git config --global user.email email @example.com	每个机器自报家门
+{
+	--global 表示这台机器上所有的Git仓库都会使用这个配置
+	当然也可以对某个仓库指定不同的用户名和Email地址
+}
+git config --global color.ui true 	git会适当地显示不同的颜色
+git config --list 	检查配置
+mkdir dirname		创建一个空目录
+cd dirname		到创建的目录下
+pwd				查看当前目录
+git init			把当前目录变成Git可以管理的仓库
+git add file		把文件添加到仓库（文件要在Git仓库所在的目录下，子目录也可）
+git add-f file 		强制添加到git
+git commit –m “本次提交的说明” 	把文件提交到仓库
+git status			掌握工作区状态
+git diff file			查看修改内容
+git log --pretty=oneline 		查看提交历史（--pretty=oneline 在一行显示出来）
+git log --graph 			查看分支合并图
+git reset --hard HEAD^		在历史版本中穿梭（HEAD^表示前一个版本）
+git reset --hard commit id 	在历史版本中穿梭（穿梭回任意版本，版本用commit id区分）
+git reflog					查看历史命令（可查看版本的commit id）
+git checkout -- file  丢弃工作区的修改
+git reset HEAD file   把暂存区的修改撤销掉，重新放回工作区（HEAD 表示最新的版本）
+git rm		从版本库中删除文件
+git remote -v 	查看当前配置有哪些远程仓库
+git remote add origin git@github.com:账户名/仓库名		在本地关联远程库（从本地到远程）
+git push –u origin master	把本地库所有内容推送到远程库上
+git push origin name 		把分支推送的远程库上
+git clone git@github.com:账户名/仓库名		从远程库克隆一个本地库
+git branch			查看本地分支
+git branch -r 			查看远程分支
+git branch name		创建分支
+git checkout name		切换分支
+git checkout -b name	创建并切换分支
+git merge name		合并某分支（name）到当前分支
+git merge --no-ff -m “description” name	合并分支（--no-ff 从分支历史上可看出分支信息）
+git branch -d name		删除分支
+git stash			将当前工作现场储藏起来等以后恢复现场继续工作
+git stash list 		查看stash存储的工作现场（可存储多个工作现场）
+git stash apply 	从stash存储中恢复工作现场，但并不删除stash内容
+git stash drop 		删除stash中的内容
+git stash pop 		从stash存储中回复工作现场并删除stash内容
+git branch -D name		强行删除没有被合并过的分支
+git checkout -b brach-name origin/branch-name 	在本地创建和远程分支对应的分支
+git brach --set-upstream branch-name origin/branch-name	建立本地分支和远程分支的关联
+git pull		从远程抓取分支
+git tag -a name commit id -m	“description” 为某一次修改打一个新的版本
+{
+	commit id 指定的某次修改的id，不加时默认版本打在最新的commit id
+	-a 指定版本名（可不加）
+	-m 指定说明文字（可不加）
+}
+git tag 		查看所有版本
+git show tagname		查看版本信息
+git tag –d tagname		本地删除版本 
+git push origin tagname 	推送某个版本到远程
+git push origin --tags 		一次性推送全部尚未推送到远程的本地版本
+git push origin :refs/tags/tagname 	远程删除版本
+git config --global alias. othername name	设置命令别名
+{
+	每个仓库的Git配置文件在.git/config文件中
+	当前用户的Git配置文件在用户主目录下的隐藏文件.gitconfig中
+}
+
+关于远程与本地关联问题的解决：
+1、	从远程先创建好repository，然后再从想要存放的目录下进行克隆。比如想要放在/home/sunjj/work目录下，则进行cd /home/sunjj/work切换到work目录下。这时在命令行输入git clone git@github.com:sunjj940/test.git.即可在work目录下发现已经和远程仓库关联好的test仓库。
+2、	进行关联是有可能会进入警告，该输入yes输入yes，该输入no输入no。enter键不能代替yes的命令。特别是遇到类似这样的警告：
+clonging into ….
+…
+are you sure you want to continue connecting (yes/no)?
+这时一定要在后面回答yes
+3、	可以只生成一次ssh key。然后在不同的远程仓库（寄放在不同网站上的远程仓库）都使用同一个ssh。即在不同的网站上都添加同一个ssh公钥密码
+
+git commit --amend		修改最近一次的提交注释
+修改历史提交注释：
+{
+git rebase -i HEAD~3	参数3表示想修改最近三次的提交
+将要修改的行，行首的pick改为edit，并保存退出
+git commit --amend 	修改注释
+git rebase --continue	完成rebase的操作
+}
